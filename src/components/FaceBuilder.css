@@ -123,12 +123,22 @@
     border-color: #00509e;
   }
   /* Selected feature in sketch area */
+/* General styles for selected features */
 .selected-feature {
-    width: 100px; /* Adjust based on your design */
-    height: auto;
     position: absolute;
-    top: 50%; /* You can fine-tune the positioning */
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
-  
+}
+
+/* Specific styles for head images */
+.head-image {
+    max-width: 400px; /* Adjust this value as needed for a larger head image */
+    height: 500px; /* Maintain aspect ratio */
+}
+
+/* Styles for other selected features */
+.other-feature {
+    max-width: 300px; /* Flexible size for other features */
+    height: auto; /* Maintain aspect ratio */
+}

@@ -54,19 +54,20 @@ const FaceBuilder = ({ features }) => {
         <h2>Sketch Area</h2>
         <div className="sketch-canvas">
           {/* Render selected features */}
-          {Object.keys(selectedFeatures).map((category) => {
-            if (selectedFeatures[category]) {
-              return (
-                <img
-                  key={category}
-                  src={selectedFeatures[category]}
-                  alt={category}
-                  className="selected-feature"
-                />
-              );
-            }
-            return null;
-          })}
+
+        {Object.keys(selectedFeatures).map((category) => {
+    if (selectedFeatures[category]) {
+        return (
+            <img
+                key={category}
+                src={selectedFeatures[category]}
+                alt={category}
+                className={`selected-feature ${category === 'head' ? 'head-image' : 'other-feature'}`}
+            />
+        );
+    }
+    return null;
+})}
         </div>
       </div>
 
