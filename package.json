@@ -9,7 +9,10 @@
     "konva": "^9.3.16",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-draggable": "^4.4.6",
     "react-konva": "^18.2.10",
+    "react-resizable": "^3.0.5",
+    "react-rnd": "^10.4.13",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },

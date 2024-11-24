@@ -1,35 +1,29 @@
 import React, { useState } from "react";
+import { Rnd } from "react-rnd";
 import "./FaceBuilder.css";
 
 const FaceBuilder = ({ features }) => {
   const [selectedCategory, setSelectedCategory] = useState("head");
-  const [selectedFeatures, setSelectedFeatures] = useState({
-    head: null,
-    hair: null,
-    eyes: null,
-    eyebrows: null,
-    nose: null,
-    lips: null,
-    moustache: null,
-    ear_and_neck: null,
-  });
+  const [selectedFeatures, setSelectedFeatures] = useState([]);
 
-  // Handle selecting a feature for a category
+  // Add a new feature to the sketch area
   const handleFeatureSelect = (category, feature) => {
-    setSelectedFeatures((prevState) => ({
+    setSelectedFeatures((prevState) => [
       ...prevState,
-      [category]: feature,
-    }));
+      { id: Date.now(), category, src: feature, x: 50, y: 50, width: 150, height: 150 },
+    ]);
   };
 
-  // Handle changing the active category
-  const handleCategorySelect = (category) => {
-    setSelectedCategory(category);
+  // Handle removing a feature
+  const handleRemoveFeature = (id) => {
+    setSelectedFeatures((prevState) =>
+      prevState.filter((feature) => feature.id !== id)
+    );
   };
 
   return (
     <div className="face-builder-container">
-      {/* Left Sidebar */}
+      {/* Sidebar */}
       <div className="sidebar">
         {Object.keys(features).map((category) => (
           <div
@@ -37,10 +31,10 @@ const FaceBuilder = ({ features }) => {
             className={`sidebar-item ${
               selectedCategory === category ? "active" : ""
             }`}
-            onClick={() => handleCategorySelect(category)}
+            onClick={() => setSelectedCategory(category)}
           >
             <img
-              src={`/icons/${category}.png`} // Replace with your icons folder path
+              src={`/icons/${category}.png`}
               alt={category}
               className="sidebar-icon"
             />
@@ -51,32 +45,69 @@ const FaceBuilder = ({ features }) => {
 
       {/* Sketch Area */}
       <div className="sketch-area">
-        <h2>Sketch Area</h2>
-        <div className="sketch-canvas">
-          {/* Render selected features */}
-
-        {Object.keys(selectedFeatures).map((category) => {
-    if (selectedFeatures[category]) {
-        return (
-            <img
-                key={category}
-                src={selectedFeatures[category]}
-                alt={category}
-                className={`selected-feature ${category === 'head' ? 'head-image' : 'other-feature'}`}
-            />
-        );
-    }
-    return null;
-})}
-        </div>
+        {selectedFeatures.map((feature) => (
+          <Rnd
+            key={feature.id}
+            default={{
+              x: feature.x,
+              y: feature.y,
+              width: feature.width,
+              height: feature.height,
+            }}
+            bounds="parent"
+            lockAspectRatio={false} // Allows resizing freely
+            enableResizing={{
+              top: true,
+              right: true,
+              bottom: true,
+              left: true,
+              topRight: true,
+              bottomRight: true,
+              bottomLeft: true,
+              topLeft: true,
+            }}
+            onDragStop={(e, data) => {
+              setSelectedFeatures((prevState) =>
+                prevState.map((f) =>
+                  f.id === feature.id ? { ...f, x: data.x, y: data.y } : f
+                )
+              );
+            }}
+            onResizeStop={(e, direction, ref, delta, position) => {
+              setSelectedFeatures((prevState) =>
+                prevState.map((f) =>
+                  f.id === feature.id
+                    ? {
+                        ...f,
+                        width: parseFloat(ref.style.width),
+                        height: parseFloat(ref.style.height),
+                        ...position,
+                      }
+                    : f
+                )
+              );
+            }}
+          >
+            <div className="resizable-feature">
+              <img
+                src={feature.src}
+                alt={feature.category}
+                style={{ width: "100%", height: "100%", mixBlendMode: "multiply" }}
+              />
+              <button
+                className="delete-button"
+                onClick={() => handleRemoveFeature(feature.id)}
+              >
+                X
+              </button>
+            </div>
+          </Rnd>
+        ))}
       </div>
 
-      {/* Right Feature Box */}
+      {/* Feature Options */}
       <div className="feature-box">
-        <div className="feature-box-header">
-          <h3>{selectedCategory.toUpperCase()} SHAPES TO CHOOSE FROM</h3>
-          <button className="delete-button">Delete Shape</button>
-        </div>
+        <h3>{selectedCategory.toUpperCase()} OPTIONS</h3>
         <div className="feature-options">
           {features[selectedCategory].map((feature, index) => (
             <div
