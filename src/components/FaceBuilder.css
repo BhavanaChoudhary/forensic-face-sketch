@@ -95,14 +95,33 @@
   text-transform: uppercase;
 }
 
+/* Feature Item */
+.resizable-feature {
+  position: relative;
+  display: inline-block; /* Ensure the delete button is positioned relative to the image */
+}
+
+/* Delete Button */
 .delete-button {
   background-color: #ff4d4d;
   color: white;
   border: none;
   padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 50%;
   cursor: pointer;
   font-size: 14px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  opacity: 0; /* Initially hidden */
+  visibility: hidden; /* Initially hidden */
+  transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
+}
+
+/* Show delete button when hovering over the image */
+.resizable-feature:hover .delete-button {
+  opacity: 1; /* Make it visible */
+  visibility: visible; /* Make it visible */
 }
 
 .feature-options {

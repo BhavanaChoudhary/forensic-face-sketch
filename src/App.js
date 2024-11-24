@@ -21,7 +21,7 @@ const features = {
     '/features/hair/hair19.jpg', '/features/hair/hair20.jpg'
   ],
   eyes: [
-    '/features/eyes/eyes01.jpg', '/features/eyes/eyes02.jpg', '/features/eyes/eyes03.jpg',
+    '/features/eyes/eyes01.png', '/features/eyes/eyes02.png', '/features/eyes/eyes03.jpg',
     '/features/eyes/eyes04.jpg', '/features/eyes/eyes05.jpg', '/features/eyes/eyes06.jpg',
     '/features/eyes/eyes07.jpg', '/features/eyes/eyes08.jpg', '/features/eyes/eyes09.jpg',
     '/features/eyes/eyes10.jpg', '/features/eyes/eyes11.jpg', '/features/eyes/eyes12.jpg',
