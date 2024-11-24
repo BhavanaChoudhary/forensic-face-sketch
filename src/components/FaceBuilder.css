@@ -14,6 +14,7 @@
   flex-direction: column;
   align-items: center;
   padding: 20px 0;
+  box-sizing: border-box; /* Ensures padding doesn't affect layout */
 }
 
 .sidebar-item {
@@ -51,7 +52,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: transparent; /* Ensure no background */
+  background-color: transparent;
   border: 1px solid #ccc;
   margin: 20px;
   border-radius: 10px;
@@ -59,7 +60,6 @@
   overflow: hidden;
 }
 
-/* Sketch Area Heading */
 .sketch-area h2 {
   margin-bottom: 20px;
 }
@@ -99,6 +99,9 @@
 .resizable-feature {
   position: relative;
   display: inline-block; /* Ensure the delete button is positioned relative to the image */
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 /* Delete Button */
@@ -154,18 +157,19 @@
   resize: both;
   overflow: hidden;
   object-fit: contain;
-  background-color: transparent; /* Ensure no background for blending */
-  mix-blend-mode: multiply; /* Blending effect */
-  pointer-events: none; /* Disable interactions to avoid accidental changes */
+  background-color: transparent;
+  mix-blend-mode: multiply;
+  pointer-events: none;
 }
 
 /* Image feature classes */
 .head-image {
-  max-width: 400px;
-  height: 500px;
+  max-width: 400px; /* Set a max width to allow resizing */
+  height: auto; /* Allow height to adjust according to the width */
   object-fit: contain;
   background-color: transparent;
   aspect-ratio: 3/2;
+  resize: both; /* Allow resizing */
 }
 
 .other-feature {

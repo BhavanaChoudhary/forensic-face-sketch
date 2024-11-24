@@ -12,7 +12,7 @@ const features = {
     '/features/head/head19.jpg', '/features/head/head20.jpg'
   ],
   hair: [
-    '/features/hair/hair01.jpg', '/features/hair/hair02.jpg', '/features/hair/hair03.jpg',
+    '/features/hair/hair01.png', '/features/hair/hair02.jpg', '/features/hair/hair03.jpg',
     '/features/hair/hair04.jpg', '/features/hair/hair05.jpg', '/features/hair/hair06.jpg',
     '/features/hair/hair07.jpg', '/features/hair/hair08.jpg', '/features/hair/hair09.jpg',
     '/features/hair/hair10.jpg', '/features/hair/hair11.jpg', '/features/hair/hair12.jpg',

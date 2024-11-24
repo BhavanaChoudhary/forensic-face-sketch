@@ -28,9 +28,7 @@ const FaceBuilder = ({ features }) => {
         {Object.keys(features).map((category) => (
           <div
             key={category}
-            className={`sidebar-item ${
-              selectedCategory === category ? "active" : ""
-            }`}
+            className={`sidebar-item ${selectedCategory === category ? "active" : ""}`}
             onClick={() => setSelectedCategory(category)}
           >
             <img
@@ -55,7 +53,6 @@ const FaceBuilder = ({ features }) => {
               height: feature.height,
             }}
             bounds="parent"
-            lockAspectRatio={false} // Allows resizing freely
             enableResizing={{
               top: true,
               right: true,
@@ -92,7 +89,7 @@ const FaceBuilder = ({ features }) => {
               <img
                 src={feature.src}
                 alt={feature.category}
-                style={{ width: "100%", height: "100%", mixBlendMode: "multiply" }}
+                style={{ width: "100%", height: "100%", objectFit: "contain" }}
               />
               <button
                 className="delete-button"
