@@ -45,31 +45,66 @@
   text-transform: capitalize;
 }
 
-/* Sketch Area */
-.sketch-area {
+/* Sketch Area Container */
+.sketch-area-container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  background-color: transparent;
-  border: 1px solid #ccc;
   margin: 20px;
-  border-radius: 10px;
+}
+
+/* Sketch Area Heading */
+.sketch-area-heading {
+  font-size: 30px;
+  font-weight: bold;
+  color: rgb(114, 167, 167);
+  text-decoration: underline;
+  font-family:cursive;
+  margin-bottom: 10px;
+}
+
+/* Sketch Area */
+.sketch-area {
   position: relative;
-  overflow: hidden;
-}
-
-.sketch-area h2 {
-  margin-bottom: 20px;
-}
-
-.sketch-canvas {
-  width: 80%;
-  height: 80%;
-  background-color: transparent;
-  border: 2px dashed #ccc;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  margin-bottom: 20px; /* Space below sketch area */
   border-radius: 10px;
+  overflow: hidden;
+  width: 600px;
+  height: 800px;
+}
+
+/* Canvas */
+.sketch-canvas {
+  width: 100%;
+  height: 100%;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+/* Buttons Below the Sketch Area */
+.sketch-area-buttons {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.sketch-area-button {
+  background-color: #00509e;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.sketch-area-button:hover {
+  background-color: #003366;
 }
 
 /* Feature Box */
@@ -160,30 +195,4 @@
   background-color: transparent;
   mix-blend-mode: multiply;
   pointer-events: none;
-}
-
-/* Image feature classes */
-.head-image {
-  max-width: 400px; /* Set a max width to allow resizing */
-  height: auto; /* Allow height to adjust according to the width */
-  object-fit: contain;
-  background-color: transparent;
-  aspect-ratio: 3/2;
-  resize: both; /* Allow resizing */
-}
-
-.other-feature {
-  max-width: 300px;
-  height: auto;
-  object-fit: contain;
-  background-color: transparent;
-  aspect-ratio: 3/2;
-  resize: both;
-}
-
-/* Blending effect applied to the images in the sketch area */
-.sketch-area img {
-  mix-blend-mode: multiply; /* Apply blending to the sketch area */
-  object-fit: contain;
-  background-color: transparent; /* No white background */
 }

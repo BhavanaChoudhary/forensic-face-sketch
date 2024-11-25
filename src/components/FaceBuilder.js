@@ -41,67 +41,86 @@ const FaceBuilder = ({ features }) => {
         ))}
       </div>
 
-      {/* Sketch Area */}
-      <div className="sketch-area">
-        {selectedFeatures.map((feature) => (
-          <Rnd
-            key={feature.id}
-            default={{
-              x: feature.x,
-              y: feature.y,
-              width: feature.width,
-              height: feature.height,
-            }}
-            bounds="parent"
-            enableResizing={{
-              top: true,
-              right: true,
-              bottom: true,
-              left: true,
-              topRight: true,
-              bottomRight: true,
-              bottomLeft: true,
-              topLeft: true,
-            }}
-            onDragStop={(e, data) => {
-              setSelectedFeatures((prevState) =>
-                prevState.map((f) =>
-                  f.id === feature.id ? { ...f, x: data.x, y: data.y } : f
-                )
-              );
-            }}
-            onResizeStop={(e, direction, ref, delta, position) => {
-              setSelectedFeatures((prevState) =>
-                prevState.map((f) =>
-                  f.id === feature.id
-                    ? {
-                        ...f,
-                        width: parseFloat(ref.style.width),
-                        height: parseFloat(ref.style.height),
-                        ...position,
-                      }
-                    : f
-                )
-              );
-            }}
+      {/* Sketch Area Container */}
+      <div className="sketch-area-container">
+        <h2 className="sketch-area-heading">Sketch Area</h2>
+        <div className="sketch-area">
+          {/* Sketch Canvas */}
+          <canvas
+            id="sketchCanvas"
+            width="600"
+            height="400"
+            className="sketch-canvas"
           >
-            <div className="resizable-feature">
-              <img
-                src={feature.src}
-                alt={feature.category}
-                style={{ width: "100%", height: "100%", objectFit: "contain" }}
-              />
-              <button
-                className="delete-button"
-                onClick={() => handleRemoveFeature(feature.id)}
-              >
-                X
-              </button>
-            </div>
-          </Rnd>
-        ))}
+            Your browser does not support the canvas element.
+          </canvas>
+
+          {/* Render selected features on top of the canvas */}
+          {selectedFeatures.map((feature) => (
+            <Rnd
+              key={feature.id}
+              default={{
+                x: feature.x,
+                y: feature.y,
+                width: feature.width,
+                height: feature.height,
+              }}
+              bounds="parent"
+              enableResizing={{
+                top: true,
+                right: true,
+                bottom: true,
+                left: true,
+                topRight: true,
+                bottomRight: true,
+                bottomLeft: true,
+                topLeft: true,
+              }}
+              onDragStop={(e, data) => {
+                setSelectedFeatures((prevState) =>
+                  prevState.map((f) =>
+                    f.id === feature.id ? { ...f, x: data.x, y: data.y } : f
+                  )
+                );
+              }}
+              onResizeStop={(e, direction, ref, delta, position) => {
+                setSelectedFeatures((prevState) =>
+                  prevState.map((f) =>
+                    f.id === feature.id
+                      ? {
+                          ...f,
+                          width: parseFloat(ref.style.width),
+                          height: parseFloat(ref.style.height),
+                          ...position,
+                        }
+                      : f
+                  )
+                );
+              }}
+            >
+              <div className="resizable-feature">
+                <img
+                  src={feature.src}
+                  alt={feature.category}
+                  style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                />
+                <button
+                  className="delete-button"
+                  onClick={() => handleRemoveFeature(feature.id)}
+                >
+                  X
+                </button>
+              </div>
+            </Rnd>
+          ))}
+        </div>
+
+        {/* Buttons below the sketch area */}
+        <div className="sketch-area-buttons">
+          <button className="sketch-area-button">Reset</button>
+          <button className="sketch-area-button">Save</button>
+        </div>
       </div>
-      
 
       {/* Feature Options */}
       <div className="feature-box">
