@@ -101,6 +101,7 @@ const FaceBuilder = ({ features }) => {
           </Rnd>
         ))}
       </div>
+      
 
       {/* Feature Options */}
       <div className="feature-box">
