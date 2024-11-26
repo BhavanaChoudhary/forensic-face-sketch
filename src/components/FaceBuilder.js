@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Rnd } from "react-rnd";
+import html2canvas from "html2canvas";
+import Modal from "react-modal";
 import "./FaceBuilder.css";
+
+// Set Modal app element
+Modal.setAppElement('#root');
 
 const FaceBuilder = ({ features }) => {
   const [selectedCategory, setSelectedCategory] = useState("head");
   const [selectedFeatures, setSelectedFeatures] = useState([]);
+  const [capturedImage, setCapturedImage] = useState(null);
+  const [matchedImage, setMatchedImage] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMatchModalOpen, setIsMatchModalOpen] = useState(false);
+  const sketchAreaRef = useRef(null);
 
   // Add a new feature to the sketch area
   const handleFeatureSelect = (category, feature) => {
@@ -19,6 +29,39 @@ const FaceBuilder = ({ features }) => {
     setSelectedFeatures((prevState) =>
       prevState.filter((feature) => feature.id !== id)
     );
+  };
+
+  // Handle taking photo of sketch area
+  const handleTakePhoto = async () => {
+    if (sketchAreaRef.current) {
+      try {
+        const canvas = await html2canvas(sketchAreaRef.current);
+        const imageUrl = canvas.toDataURL('image/png');
+        setCapturedImage(imageUrl);
+        setIsModalOpen(true);
+      } catch (error) {
+        console.error('Error capturing sketch:', error);
+      }
+    }
+  };
+
+  // Handle uploading to database and finding match
+  const handleUploadToDatabase = async () => {
+    if (capturedImage) {
+      try {
+        // Simulating database match with timeout
+        // In real implementation, this would be an API call to your backend
+        setTimeout(() => {
+          // Simulated matched image (replace with actual API response)
+          const simulatedMatchedImage = '/features/head/head01.png';
+          setMatchedImage(simulatedMatchedImage);
+          setIsModalOpen(false);
+          setIsMatchModalOpen(true);
+        }, 1500);
+      } catch (error) {
+        console.error('Error uploading to database:', error);
+      }
+    }
   };
 
   return (
@@ -44,7 +87,7 @@ const FaceBuilder = ({ features }) => {
       {/* Sketch Area Container */}
       <div className="sketch-area-container">
         <h2 className="sketch-area-heading">Sketch Area</h2>
-        <div className="sketch-area">
+        <div className="sketch-area" ref={sketchAreaRef}>
           {/* Sketch Canvas */}
           <canvas
             id="sketchCanvas"
@@ -117,8 +160,14 @@ const FaceBuilder = ({ features }) => {
 
         {/* Buttons below the sketch area */}
         <div className="sketch-area-buttons">
-          <button className="sketch-area-button">Reset</button>
-          <button className="sketch-area-button">Save</button>
+          <button className="sketch-area-button" onClick={handleTakePhoto}>Take Photo</button>
+          <button 
+            className="sketch-area-button" 
+            onClick={handleUploadToDatabase}
+            disabled={!capturedImage}
+          >
+            Upload to Database
+          </button>
         </div>
       </div>
 
@@ -137,6 +186,48 @@ const FaceBuilder = ({ features }) => {
           ))}
         </div>
       </div>
+
+      {/* Modal for displaying captured photo */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        className="photo-modal"
+        overlayClassName="modal-overlay"
+      >
+        <h2>Captured Sketch</h2>
+        {capturedImage && (
+          <img src={capturedImage} alt="Captured sketch" style={{ maxWidth: '100%' }} />
+        )}
+        <div className="modal-buttons">
+          <button onClick={() => setIsModalOpen(false)}>Close</button>
+          <button onClick={handleUploadToDatabase}>Upload to Database</button>
+        </div>
+      </Modal>
+
+      {/* Modal for displaying match results */}
+      <Modal
+        isOpen={isMatchModalOpen}
+        onRequestClose={() => setIsMatchModalOpen(false)}
+        className="match-modal"
+        overlayClassName="modal-overlay"
+      >
+        <h2>Match Results</h2>
+        <div className="match-comparison">
+          <div>
+            <h3>Your Sketch</h3>
+            {capturedImage && (
+              <img src={capturedImage} alt="Your sketch" style={{ maxWidth: '45%' }} />
+            )}
+          </div>
+          <div>
+            <h3>Matched Image</h3>
+            {matchedImage && (
+              <img src={matchedImage} alt="Matched image" style={{ maxWidth: '45%' }} />
+            )}
+          </div>
+        </div>
+        <button onClick={() => setIsMatchModalOpen(false)}>Close</button>
+      </Modal>
     </div>
   );
 };
