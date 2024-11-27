@@ -11,7 +11,8 @@ const FaceBuilder = ({ features }) => {
   const [selectedCategory, setSelectedCategory] = useState("head");
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const [capturedImage, setCapturedImage] = useState(null);
-  const [matchedImage, setMatchedImage] = useState(null);
+const [matchedImages, setMatchedImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMatchModalOpen, setIsMatchModalOpen] = useState(false);
   const sketchAreaRef = useRef(null);
@@ -45,21 +46,36 @@ const FaceBuilder = ({ features }) => {
     }
   };
 
-  // Handle uploading to database and finding match
-  const handleUploadToDatabase = async () => {
+// Handle uploading to database and finding match
+const [uploadStatus, setUploadStatus] = useState('');
+
+const handleUploadToDatabase = async () => {
     if (capturedImage) {
       try {
-        // Simulating database match with timeout
-        // In real implementation, this would be an API call to your backend
-        setTimeout(() => {
-          // Simulated matched image (replace with actual API response)
-          const simulatedMatchedImage = '/features/head/head01.png';
-          setMatchedImage(simulatedMatchedImage);
-          setIsModalOpen(false);
-          setIsMatchModalOpen(true);
-        }, 1500);
+        setIsLoading(true);
+        setUploadStatus('Finding matches...');
+        
+        // Get all sketches from database
+        const sketchesResponse = await fetch('/api/sketches');
+        const sketches = await sketchesResponse.json();
+        
+        // Get top 5 matches
+        const matches = sketches
+          .slice(0, 5)
+          .map(sketch => ({
+            imageData: sketch.imageData,
+            imageName: sketch.imageName || 'Unknown'
+          }));
+        
+        setMatchedImages(matches);
+        setIsModalOpen(false);
+        setIsMatchModalOpen(true);
+        setIsLoading(false);
+        setUploadStatus('');
       } catch (error) {
         console.error('Error uploading to database:', error);
+        setUploadStatus('Upload failed. Please try again.');
+        setTimeout(() => setUploadStatus(''), 3000);
       }
     }
   };
@@ -204,29 +220,97 @@ const FaceBuilder = ({ features }) => {
         </div>
       </Modal>
 
-      {/* Modal for displaying match results */}
+{/* Modal for displaying match results */}
       <Modal
         isOpen={isMatchModalOpen}
         onRequestClose={() => setIsMatchModalOpen(false)}
         className="match-modal"
         overlayClassName="modal-overlay"
+        style={{
+          content: {
+            width: '80%',
+            maxWidth: '1000px',
+            margin: 'auto',
+            padding: '20px',
+            backgroundColor: 'white',
+            borderRadius: '8px'
+          }
+        }}
       >
-        <h2>Match Results</h2>
-        <div className="match-comparison">
-          <div>
+        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Match Results</h2>
+        <div style={{ display: 'flex', marginBottom: '20px' }}>
+          <div style={{ flex: '0 0 30%', padding: '10px' }}>
             <h3>Your Sketch</h3>
             {capturedImage && (
-              <img src={capturedImage} alt="Your sketch" style={{ maxWidth: '45%' }} />
+              <img 
+                src={capturedImage} 
+                alt="Your sketch" 
+                style={{ 
+                  width: '100%', 
+                  height: 'auto',
+                  border: '2px solid #ccc',
+                  borderRadius: '4px'
+                }} 
+              />
             )}
           </div>
-          <div>
-            <h3>Matched Image</h3>
-            {matchedImage && (
-              <img src={matchedImage} alt="Matched image" style={{ maxWidth: '45%' }} />
-            )}
+          <div style={{ flex: '0 0 70%', padding: '10px' }}>
+            <h3>Matched Images</h3>
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+              gap: '10px',
+              maxHeight: '500px',
+              overflowY: 'auto'
+            }}>
+              {matchedImages.map((match, index) => (
+                <div key={index} style={{ 
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  padding: '10px'
+                }}>
+                  <img 
+                    src={match.imageData} 
+                    alt={`Match ${index + 1}`} 
+                    style={{ 
+                      width: '100%',
+                      height: 'auto',
+                      objectFit: 'contain'
+                    }} 
+                  />
+                  <p style={{ 
+                    textAlign: 'center',
+                    margin: '5px 0',
+                    fontSize: '14px'
+                  }}>
+                    {match.imageName}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-        <button onClick={() => setIsMatchModalOpen(false)}>Close</button>
+        {isLoading && (
+          <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+            Loading matches...
+          </div>
+        )}
+        <div style={{ textAlign: 'center' }}>
+          <button 
+            onClick={() => setIsMatchModalOpen(false)}
+            style={{
+              padding: '8px 20px',
+              fontSize: '16px',
+              borderRadius: '4px',
+              backgroundColor: '#007bff',
+              color: 'white',
+              border: 'none',
+              cursor: 'pointer'
+            }}
+          >
+            Close
+          </button>
+        </div>
       </Modal>
     </div>
   );

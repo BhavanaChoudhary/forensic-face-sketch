@@ -2,12 +2,18 @@
   "name": "forensic-face-sketch",
   "version": "0.1.0",
   "private": true,
+"proxy": "http://localhost:5001",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.8",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
     "html2canvas": "^1.4.1",
     "konva": "^9.3.16",
+    "mongoose": "^8.8.3",
+    "multer": "^1.4.5-lts.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-draggable": "^4.4.6",
@@ -20,7 +26,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
+"start": "cross-env PORT=3001 NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
+    "server": "node server/server.js",
+    "dev": "concurrently \"npm run server\" \"npm run start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -45,6 +53,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "concurrently": "^9.1.0",
     "cross-env": "^7.0.3"
   }
 }
