@@ -8,7 +8,7 @@ const features = {
     '/features/head/head01.png', '/features/head/head02.png', '/features/head/head03.png',
     '/features/head/head04.png', '/features/head/head05.png', '/features/head/head06.png',
     '/features/head/head07.png', '/features/head/head08.png', '/features/head/head09.png',
-    '/features/head/head10.png', '/features/head/head11.png'
+    '/features/head/head10.png', '/features/head/head11.png',  '/features/head/head12.png',
   ],
   hair: [
     '/features/hair/hair01.png', '/features/hair/hair02.png', '/features/hair/hair03.png',

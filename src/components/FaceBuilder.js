@@ -107,8 +107,8 @@ const handleUploadToDatabase = async () => {
           {/* Sketch Canvas */}
           <canvas
             id="sketchCanvas"
-            width="600"
-            height="400"
+            width="100%"
+            height="100%"
             className="sketch-canvas"
           >
             Your browser does not support the canvas element.
