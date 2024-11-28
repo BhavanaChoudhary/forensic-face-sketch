@@ -205,20 +205,27 @@ const handleUploadToDatabase = async () => {
 
       {/* Modal for displaying captured photo */}
       <Modal
-        isOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
-        className="photo-modal"
-        overlayClassName="modal-overlay"
-      >
-        <h2>Captured Sketch</h2>
-        {capturedImage && (
-          <img src={capturedImage} alt="Captured sketch" style={{ maxWidth: '100%' }} />
-        )}
-        <div className="modal-buttons">
-          <button onClick={() => setIsModalOpen(false)}>Close</button>
-          <button onClick={handleUploadToDatabase}>Upload to Database</button>
-        </div>
-      </Modal>
+  isOpen={isModalOpen}
+  onRequestClose={() => setIsModalOpen(false)}
+  className="photo-modal"
+  overlayClassName="modal-overlay"
+>
+  <div className="captured-sketch-container">
+    <h2>Captured Sketch</h2>
+    {capturedImage && (
+      <img
+        src={capturedImage}
+        alt="Captured sketch"
+        className="captured-sketch"
+      />
+    )}
+  </div>
+  <div className="modal-buttons">
+    <button onClick={() => setIsModalOpen(false)}>Close</button>
+    <button onClick={handleUploadToDatabase}>Upload to Database</button>
+  </div>
+</Modal>
+
 
 {/* Modal for displaying match results */}
       <Modal
