@@ -1,7 +1,9 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './components/HomePage';
-import FaceBuilder from './components/FaceBuilder';
+import React from 'react'; 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
+import HomePage from './components/HomePage'; 
+import FaceBuilder from './components/FaceBuilder';  
+import VoiceRecordPage from './components/VoiceRecordPage'; 
+
 
 const features = {
   head: [
@@ -84,6 +86,8 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/sketch" element={<FaceBuilder features={features} />} />
+        <Route path="/voice-record" element={<VoiceRecordPage />} />
+     
       </Routes>
     </Router>
   );

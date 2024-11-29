@@ -1,0 +1,90 @@
+.voice-record-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  background-color: #f0f8ff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.input-container {
+  position: relative;
+  width: 400px; /* Increased width */
+  margin-top: 20px;
+}
+
+.voice-input {
+  width: 100%;
+  padding: 15px;
+  padding-right: 50px; /* Space for the mic icon */
+  border-radius: 25px;
+  border: 2px solid #ccc;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  font-size: 16px;
+}
+
+.voice-input:focus {
+  border-color: #0693e3;
+  box-shadow: 0 0 10px #0693e3;
+}
+
+.mic-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px; /* Adjusted size */
+  height: 30px; /* Adjusted size */
+}
+
+.mic-image {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px; /* Adjusted size */
+  height: 30px; /* Adjusted size */
+}
+
+h1 {
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  margin-bottom: 20px;
+}
+
+p {
+  color: #666;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Box container for side-by-side boxes */
+.box-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.new-box, .new-box-right {
+  width: 45%;
+  height: 300px; /* Adjust the height as needed */
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Ensure images fit within the box */
+.new-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Ensure the image doesn't overflow */
+}
+

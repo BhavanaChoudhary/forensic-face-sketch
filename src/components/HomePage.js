@@ -1,6 +1,7 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react'; 
+import { useNavigate, Link } from 'react-router-dom'; // Import Link for navigation
 import './HomePage.css';
+
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -9,6 +10,10 @@ const HomePage = () => {
     navigate('/sketch');
   };
 
+  const handleVoiceInput = () => {
+    navigate('/voice-record'); // Update to navigate to the VoiceRecordPage
+  };
+  
   return (
     <div>
       {/* Upper Section */}
@@ -28,7 +33,7 @@ const HomePage = () => {
           </p>
         </div>
 
-{/* SVG Animation */}
+        {/* SVG Animation */}
         <div className="svg-container">
           <svg width="100%" height="100%" id="svg" viewBox="0 0 1440 400" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 ease-in-out">
             <path d="M 0,700 L 0,105 C 72.12426362297495,110.88595360824742 144.2485272459499,116.77190721649484 203,113 C 261.7514727540501,109.22809278350516 307.13015463917526,95.79832474226805 355,127 C 402.86984536082474,158.20167525773195 453.230854197349,234.034793814433 525,262 C 596.769145802651,289.965206185567 689.9464285714286,270.0625 753,292 C 816.0535714285714,313.9375 848.9834315169367,377.715206185567 904,420 C 959.0165684830633,462.284793814433 1036.119845360825,483.07667525773195 1101,503 C 1165.880154639175,522.923324742268 1218.5371870397644,541.9780927835052 1273,563 C 1327.4628129602356,584.0219072164948 1383.7314064801178,607.0109536082474 1440,630 L 1440,700 L 0,700 Z" stroke="none" strokeWidth="0" fill="#0693e3" fillOpacity="0.265" className="transition-all duration-300 ease-in-out delay-150 path-0" transform="rotate(-180 720 200)"/>
@@ -45,7 +50,7 @@ const HomePage = () => {
         <div className="input-boxes">
           <div className="input-box">
             <h3>Voice Input</h3>
-            <button>Record Voice</button>
+            <button onClick={handleVoiceInput}>Record Voice</button> 
           </div>
           <div className="input-box">
             <h3>Video Input</h3>

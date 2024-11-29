@@ -50,35 +50,59 @@ const [matchedImages, setMatchedImages] = useState([]);
 const [uploadStatus, setUploadStatus] = useState('');
 
 const handleUploadToDatabase = async () => {
-    if (capturedImage) {
-      try {
-        setIsLoading(true);
-        setUploadStatus('Finding matches...');
-        
-        // Get all sketches from database
+  if (capturedImage) {
+    try {
+      setIsLoading(true);
+
+      // POST request to upload the captured image
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          imageData: capturedImage, // Base64 image data
+          features: selectedFeatures.map(f => ({
+            category: f.category,
+            src: f.src,
+            x: f.x,
+            y: f.y,
+            width: f.width,
+            height: f.height
+          }))
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setUploadStatus('Image uploaded successfully!');
+        setIsModalOpen(false);
+
+        // Fetch sketches to find matches
         const sketchesResponse = await fetch('/api/sketches');
         const sketches = await sketchesResponse.json();
-        
-        // Get top 5 matches
-        const matches = sketches
-          .slice(0, 5)
-          .map(sketch => ({
-            imageData: sketch.imageData,
-            imageName: sketch.imageName || 'Unknown'
-          }));
-        
+
+        // Simulate finding matches (filter top 5 or any logic)
+        const matches = sketches.slice(0, 5).map(sketch => ({
+          imageData: sketch.imageData,
+          imageName: sketch.imageName || 'Unknown'
+        }));
+
         setMatchedImages(matches);
-        setIsModalOpen(false);
         setIsMatchModalOpen(true);
-        setIsLoading(false);
-        setUploadStatus('');
-      } catch (error) {
-        console.error('Error uploading to database:', error);
-        setUploadStatus('Upload failed. Please try again.');
-        setTimeout(() => setUploadStatus(''), 3000);
+      } else {
+        throw new Error(result.error || 'Failed to upload image');
       }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      setUploadStatus('Upload failed. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
-  };
+  } else {
+    setUploadStatus('No captured image to upload!');
+  }
+};
+
 
   return (
     <div className="face-builder-container">

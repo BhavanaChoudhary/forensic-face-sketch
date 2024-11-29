@@ -1,4 +1,3 @@
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -103,29 +102,35 @@ app.post('/api/upload', async (req, res) => {
   }
 });
 
-// Get all sketches from database
+// Get all sketches from database (useful for testing purposes)
 app.get('/api/sketches', async (req, res) => {
   try {
-    // Get all sketches except the current one
-    const sketches = await Sketch.find({
-      isExternal: true  // Only get the external images we uploaded
-    }).sort({ createdAt: -1 });
-
-    // Return only necessary data
-    const formattedSketches = sketches.map(sketch => ({
-      id: sketch._id,
-      imageData: sketch.imageData,
-      imageName: sketch.imageName || 'Unknown',
-      createdAt: sketch.createdAt
-    }));
-
-    res.json(formattedSketches);
+    const sketches = await Sketch.find();  // Get all sketches in the database
+    res.json(sketches);  // Send sketches data as JSON
   } catch (error) {
     console.error('Error fetching sketches:', error);
     res.status(500).json({ error: error.message });
   }
 });
 
+// Get a random sketch
+app.get('/api/sketches/random', async (req, res) => {
+  try {
+    const count = await Sketch.countDocuments();  // Count how many sketches are in the database
+    if (count === 0) return res.status(404).json({ error: 'No sketches found' });
+    const random = Math.floor(Math.random() * count);  // Get a random index
+    const randomSketch = await Sketch.findOne().skip(random);  // Get the sketch at the random index
+    res.json(randomSketch);  // Send the sketch data as JSON
+  } catch (error) {
+    console.error('Error fetching random sketch:', error);
+    res.status(500).json({ error: error.message });  // Handle errors
+  }
+});
+
+// This route is redundant, remove it
+// app.get('/api/random-sketch', async (req, res) => { ... });
+
+// Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
