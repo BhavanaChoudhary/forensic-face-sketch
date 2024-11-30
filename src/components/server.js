@@ -41,14 +41,14 @@ const sketchSchema = new mongoose.Schema({
 
 const Sketch = mongoose.model('Sketch', sketchSchema);
 
-// Define RealSketches Schema
-const realSketchSchema = new mongoose.Schema({
+// Define Real Schema
+const realSchema = new mongoose.Schema({
   imageData: String,
   createdAt: { type: Date, default: Date.now },
   imageName: { type: String }
 });
 
-const RealSketch = mongoose.model('RealSketch', realSketchSchema);
+const Real = mongoose.model('Real', realSchema);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -145,22 +145,29 @@ app.get('/api/sketches/random', async (req, res) => {
     res.status(500).json({ error: error.message });  // Handle errors
   }
 });
-
-// Get a random image from the 'RealSketches' collection
-app.get('/api/RealSketches/random', async (req, res) => {
+app.get('/api/real', async (req, res) => {
   try {
-    const count = await RealSketch.countDocuments();  // Count how many images are in the "RealSketches" collection
-    if (count === 0) return res.status(404).json({ error: 'No real sketches found' });
-    const random = Math.floor(Math.random() * count);  // Get a random index
-    const randomRealSketch = await RealSketch.findOne().skip(random);  // Get the image at the random index
-    res.json(randomRealSketch);  // Send the image data as JSON
+    const real = await Sketch.find();  // Get all sketches in the database
+    res.json(real);  // Send sketches data as JSON
   } catch (error) {
-    console.error('Error fetching random real sketch:', error);
+    console.error('Error fetching sketches:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+// Get a random image from the 'real' collection
+app.get('/api/real/random', async (req, res) => {
+  try {
+    const count = await Real.countDocuments();  // Count how many images are in the "real" collection
+    if (count === 0) return res.status(404).json({ error: 'No real images found' });
+    const random = Math.floor(Math.random() * count);  // Get a random index
+    const randomRealImage = await Real.findOne().skip(random);  // Get the image at the random index
+    res.json(randomRealImage);// Log the random image data
+  } catch (error) {
+    console.error('Error fetching random real image:', error);
     res.status(500).json({ error: error.message });  // Handle errors
   }
 });
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+  console.log(`Server running on port ${port}`);});

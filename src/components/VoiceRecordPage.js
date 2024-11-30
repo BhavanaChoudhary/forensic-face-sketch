@@ -93,7 +93,7 @@ const VoiceRecordPage = () => {
       <div className="box-container">
         {/* Left Box */}
         <div className="new-box">
-          <p>Left Box</p>
+          
           {/* Display random real sketch if available */}
           {randomRealSketch ? (
             <img src={randomRealSketch} alt="Random Real Sketch" />
