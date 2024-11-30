@@ -1,0 +1,120 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(120deg, #103060, #4398ec); /* Gradient background */
+    color: white;
+    overflow-y: auto;
+}
+
+.App {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    gap: 30px; /* Increased spacing */
+}
+
+.heading {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #ffffff;
+    text-shadow: 2px 3px 6px rgba(0, 0, 0, 0.6);
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.heading span {
+    color: #ffeb3b; /* Golden highlight */
+    font-style: italic;
+    text-shadow: 2px 3px 8px rgba(255, 235, 59, 0.6);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #bbdefb, #90caf9); /* Soft blue gradient */
+    width: 90%;
+    max-width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s, background-color 0.4s, border 0.4s, box-shadow 0.4s;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+}
+
+.container h2 {
+    color: #103060;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+input[type="file"] {
+    padding: 12px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(145deg, #e3f2fd, #bbdefb);
+    color: #0d47a1;
+    font-weight: bold;
+    width: 80%;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+input[type="file"]:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+}
+
+video {
+    border: 2px solid #1976d2;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-height: 300px;
+    aspect-ratio: 16/9;
+    background-color: black;
+    margin-bottom: 15px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button {
+    padding: 12px;
+    background: linear-gradient(145deg, #1976d2, #0d47a1);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.3s ease;
+}
+
+button:hover {
+    background: linear-gradient(145deg, #64b5f6, #0d47a1);
+    transform: scale(1.1);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+button:disabled {
+    background: linear-gradient(145deg, #cccccc, #aaaaaa);
+    cursor: not-allowed;
+    box-shadow: none;
+}

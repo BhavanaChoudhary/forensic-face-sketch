@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './VoiceRecordPage.css'; // Import the CSS file for styling
-import axios from 'axios';
 
 const VoiceRecordPage = () => {
   const [randomRealSketch, setRandomRealSketch] = useState(null);
-  const [randomSketch, setRandomSketch] = useState(null);
+  const [correspondingFace, setCorrespondingFace] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState('');
+  const [showLeftImage, setShowLeftImage] = useState(false);
+  const [showRightImage, setShowRightImage] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
 
   // Initialize Speech Recognition
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -35,40 +37,53 @@ const VoiceRecordPage = () => {
     if (isRecording) {
       recognition.stop();
       setIsRecording(false);
+      // Show dialog before displaying the images
+      setShowDialog(true);
+      setTimeout(() => {
+        setShowDialog(false);
+        fetchRandomRealSketch(); // Fetch a random image from the realsketches folder
+        setShowLeftImage(true);
+        setTimeout(() => {
+          setShowRightImage(true);
+        }, 3000); // 3 seconds delay for the right image
+      }, 3000); // 3 seconds delay for the dialog
     } else {
       recognition.start();
       setIsRecording(true);
+      setShowLeftImage(false);
+      setShowRightImage(false);
     }
   };
 
-  // Fetch a random image from the 'RealSketches' collection
-  useEffect(() => {
-    const fetchRandomRealSketch = async () => {
-      try {
-        const response = await axios.get('/api/RealSketches/random'); // Ensure the endpoint path is correct
-        console.log('Random Real Sketch Data:', response.data); // Log the response data
-        setRandomRealSketch(response.data.imageData);
-      } catch (error) {
-        console.error('Error fetching random real sketch:', error);
-      }
-    };
+  // Fetch a random image from the 'realsketches' folder
+  const fetchRandomRealSketch = () => {
+    const realSketches = [
+      '/realsketches/s1.jpg', '/realsketches/s2.jpg', '/realsketches/s3.jpg',
+      '/realsketches/s4.jpg', '/realsketches/s5.jpg', '/realsketches/s6.jpg',
+      '/realsketches/s7.jpg', '/realsketches/s8.jpg', '/realsketches/s9.jpg',
+      '/realsketches/s10.jpg', '/realsketches/s11.jpg', '/realsketches/s12.jpg',
+      '/realsketches/s13.jpg', '/realsketches/s14.jpg', '/realsketches/s15.jpg',
+      '/realsketches/s16.jpg', '/realsketches/s17.jpg', '/realsketches/s18.jpg',
+      '/realsketches/s19.jpg', '/realsketches/s20.jpg', '/realsketches/s21.jpg',
+      '/realsketches/s22.jpg', '/realsketches/s23.jpg', '/realsketches/s24.jpg',
+      '/realsketches/s25.jpg', '/realsketches/s26.jpg', '/realsketches/s27.jpg',
+      '/realsketches/s28.jpg', '/realsketches/s29.jpg', '/realsketches/s30.jpg',
+      '/realsketches/s31.jpg', '/realsketches/s32.jpg', '/realsketches/s33.jpg',
+      '/realsketches/s34.jpg', '/realsketches/s35.jpg', '/realsketches/s36.jpg',
+      '/realsketches/s37.jpg', '/realsketches/s38.jpg', '/realsketches/s39.jpg',
+      '/realsketches/s40.jpg', '/realsketches/s41.jpg', '/realsketches/s42.jpg',
+      '/realsketches/s43.jpg', '/realsketches/s44.jpg', '/realsketches/s45.jpg',
+      '/realsketches/s46.jpg', '/realsketches/s47.jpg', '/realsketches/s48.jpg',
+      '/realsketches/s49.jpg', '/realsketches/s50.jpg'
+    ];
+    const randomIndex = Math.floor(Math.random() * realSketches.length);
+    const selectedSketch = realSketches[randomIndex];
+    setRandomRealSketch(selectedSketch);
 
-    fetchRandomRealSketch();
-  }, []);
-
-  // Fetch a random sketch
-  useEffect(() => {
-    const fetchRandomSketch = async () => {
-      try {
-        const response = await axios.get('/api/sketches/random');
-        setRandomSketch(response.data.imageData);
-      } catch (error) {
-        console.error('Error fetching random sketch:', error);
-      }
-    };
-
-    fetchRandomSketch();
-  }, []);
+    // Set the corresponding face image based on the selected sketch
+    const faceImage = selectedSketch.replace('/realsketches/', '/faces/');
+    setCorrespondingFace(faceImage);
+  };
 
   return (
     <div className="voice-record-container">
@@ -89,13 +104,18 @@ const VoiceRecordPage = () => {
           style={{ cursor: 'pointer' }}
         />
       </div>
+      {/* Dialog Box */}
+      {showDialog && (
+        <div className="dialog-box">
+          <p>Loading...</p>
+        </div>
+      )}
       {/* Box Container for Side-by-Side Boxes */}
       <div className="box-container">
         {/* Left Box */}
         <div className="new-box">
-          
-          {/* Display random real sketch if available */}
-          {randomRealSketch ? (
+          {/* Display random real sketch if available and showLeftImage is true */}
+          {showLeftImage && randomRealSketch ? (
             <img src={randomRealSketch} alt="Random Real Sketch" />
           ) : (
             <p>Loading...</p>
@@ -103,9 +123,9 @@ const VoiceRecordPage = () => {
         </div>
         {/* Right Box */}
         <div className="new-box-right">
-          {/* Display random sketch if available */}
-          {randomSketch ? (
-            <img src={randomSketch} alt="Random Sketch" />
+          {/* Display corresponding face if available and showRightImage is true */}
+          {showRightImage && correspondingFace ? (
+            <img src={correspondingFace} alt="Corresponding Face" />
           ) : (
             <p>Loading...</p>
           )}

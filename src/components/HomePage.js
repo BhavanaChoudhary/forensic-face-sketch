@@ -13,7 +13,9 @@ const HomePage = () => {
   const handleVoiceInput = () => {
     navigate('/voice-record'); // Update to navigate to the VoiceRecordPage
   };
-  
+  const handleVideoInput = () => {
+    navigate('/video-input'); // Update to navigate to the VoiceRecordPage
+  };
   return (
     <div>
       {/* Upper Section */}
@@ -54,7 +56,7 @@ const HomePage = () => {
           </div>
           <div className="input-box">
             <h3>Video Input</h3>
-            <button>Upload Video</button>
+            <button onClick={handleVideoInput}>Capture Video</button>
           </div>
           <div className="input-box">
             <h3>Manual Input</h3>
