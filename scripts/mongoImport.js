@@ -25,5 +25,17 @@ imageFiles.forEach(file => {
     
     print('Imported: ' + file);
 });
-
+// Import each image
+imageFiles.forEach(file => {
+    const fullPath = facesPath + file;
+    const imageData = load('file://' + fullPath);
+    
+    db.Real.insertOne({
+        imageName: file,
+        imageData: imageData,
+        createdAt: new Date()
+    });
+    
+    print('Imported: ' + file);
+});
 print('Import completed');

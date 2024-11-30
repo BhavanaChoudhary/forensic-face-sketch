@@ -41,6 +41,25 @@ const sketchSchema = new mongoose.Schema({
 
 const Sketch = mongoose.model('Sketch', sketchSchema);
 
+// Define RealSketches Schema
+const realSketchSchema = new mongoose.Schema({
+  imageData: String,
+  createdAt: { type: Date, default: Date.now },
+  imageName: { type: String }
+});
+
+const RealSketch = mongoose.model('RealSketch', realSketchSchema);
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  const connectionStatus = mongoose.connection.readyState;
+  if (connectionStatus === 1) {
+    res.json({ status: 'Connected to MongoDB' });
+  } else {
+    res.status(500).json({ status: 'Not connected to MongoDB' });
+  }
+});
+
 // Routes
 app.post('/api/upload/external', async (req, res) => {
   try {
@@ -127,8 +146,19 @@ app.get('/api/sketches/random', async (req, res) => {
   }
 });
 
-// This route is redundant, remove it
-// app.get('/api/random-sketch', async (req, res) => { ... });
+// Get a random image from the 'RealSketches' collection
+app.get('/api/RealSketches/random', async (req, res) => {
+  try {
+    const count = await RealSketch.countDocuments();  // Count how many images are in the "RealSketches" collection
+    if (count === 0) return res.status(404).json({ error: 'No real sketches found' });
+    const random = Math.floor(Math.random() * count);  // Get a random index
+    const randomRealSketch = await RealSketch.findOne().skip(random);  // Get the image at the random index
+    res.json(randomRealSketch);  // Send the image data as JSON
+  } catch (error) {
+    console.error('Error fetching random real sketch:', error);
+    res.status(500).json({ error: error.message });  // Handle errors
+  }
+});
 
 // Start the server
 app.listen(port, () => {
