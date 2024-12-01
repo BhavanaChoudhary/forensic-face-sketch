@@ -1,7 +1,8 @@
 .voice-record-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row; /* Change to row to align items horizontally */
+  justify-content: space-between; /* Space between left content and right boxes */
+  align-items: flex-start; /* Align items to the top */
   margin-top: 50px;
   background-color: #f0f8ff;
   padding: 20px;
@@ -10,43 +11,42 @@
 }
 
 .input-container {
-  position: relative;
-  width: 400px; /* Increased width */
-  margin-top: 20px;
+  width: 60%; /* Adjust width to take up more space on the left */
+  margin-right: 20px; /* Space between input and boxes */
 }
 
-.voice-input {
-  width: 100%;
-  padding: 15px;
-  padding-right: 50px; /* Space for the mic icon */
-  border-radius: 25px;
+.box-container {
+  width: 35%; /* Adjust width to fit the right side */
+  display: flex;
+  flex-direction: column; /* Stack boxes vertically */
+  justify-content: space-between;
+  margin-top: 0; /* Remove top margin to align with input */
+}
+
+.new-box,
+.new-box-right {
+  width: 100%; /* Full width of the container */
+  height: 300px; /* Ensure height is greater than width */
+  border-radius: 15px;
+  background-color: #e6e6fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: 2px solid #ccc;
-  outline: none;
-  transition: border-color 0.3s, box-shadow 0.3s;
-  font-size: 16px;
+  margin-bottom: 20px; /* Space between the two boxes */
 }
 
-.voice-input:focus {
-  border-color: #0693e3;
-  box-shadow: 0 0 10px #0693e3;
+.new-box img,
+.new-box-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the image covers the box without distortion */
 }
 
-.mic-image {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 30px; /* Adjusted size */
-  height: 30px; /* Adjusted size */
-}
-
-h1 {
-  color: #333;
-  font-family: 'Arial', sans-serif;
-  margin-bottom: 20px;
-}
-
-p {
+.new-box p,
+.new-box-right p {
+  display: block; /* Display loading text when no image */
   color: #666;
   font-family: 'Arial', sans-serif;
   line-height: 1.5;

@@ -4,39 +4,42 @@
     background: linear-gradient(120deg, #103060, #4398ec);
     color: white;
     overflow-y: auto;
+    min-height: 100vh;
+    display: flex; /* Align left and right sections */
+    justify-content: space-between;
+    padding: 20px;
 }
 
-.video-input-page .App {
+.video-input-page .left-section {
+    width: 55%; /* Decreased width */
     display: flex;
     flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
     gap: 20px;
 }
 
-.video-input-page .heading {
-    text-align: center;
-    font-size: 2.5rem;
-    color: #ffffff;
-    text-shadow: 2px 3px 6px rgba(0, 0, 0, 0.6);
-    margin-bottom: 30px;
-    animation: fadeIn 1s ease-in-out;
-    font-weight: bold;
+.video-input-page .right-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between input and boxes containers */
 }
 
-.video-input-page .heading span {
-    color: #ffeb3b;
-    font-style: italic;
-    text-shadow: 2px 3px 8px rgba(255, 235, 59, 0.6);
+.input-container {
+    display: flex;
+    justify-content: center;
+}
+
+.boxes-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Space between the boxes */
+    margin-top: 40px; /* Move boxes further down */
 }
 
 .video-input-page .container {
+    width: 80%; /* Decreased width */
     border-radius: 15px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
     padding: 30px;
-    width: 90%;
-    max-width: 500px;
     text-align: center;
     background: linear-gradient(145deg, #bbdefb, #90caf9);
     position: relative;
@@ -54,6 +57,7 @@
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    align-items: center; /* Align items vertically */
 }
 
 .video-input-page button {
@@ -80,11 +84,146 @@
     cursor: not-allowed;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+.right-section .rounded-input {
+    width: 95%; /* Increased width */
+    padding: 15px; /* Increased padding for height */
+    border-radius: 15px; /* Rounded corners */
+    border: 2px solid #ccc;
+    margin-bottom: 20px; /* Space below the input */
+    font-size: 1rem;
 }
+
+.right-section .box {
+    width: 300px; /* Increased width */
+    height: 350px; /* Increased height */
+    border-radius: 10px;
+    background: #e6e6fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
+    color: #555;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Searching Modal */
+.searching-modal {
+    background-color: rgb(76, 172, 245); /* Blue background */
+    padding: 15px; /* Adjusted padding */
+    border-radius: 20px; /* Rounded corners */
+    border: 2px solid #007bff; /* Blue border */
+    width: 250px; /* Reduced width */
+    height: 120px; /* Reduced height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for a pop-up effect */
+  }
+  
+  /* Title Text */
+  .searching-modal h2 {
+    color: #333;
+    text-align: center;
+    font-size: 1rem; /* Adjusted font size */
+    margin-top: 10px;
+  }
+  
+  /* Spinner Animation */
+  .spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db; /* Blue spinner color */
+    border-radius: 50%;
+    width: 40px; /* Reduced size of the spinner */
+    height: 40px; /* Reduced size of the spinner */
+    animation: spin 2s linear infinite;
+  }
+  
+  /* Spinner Rotation Animation */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Modal Content Styling */
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  /* Modal Content Title */
+  .modal-content h2 {
+    margin-top: 10px;
+    color: #333;
+    font-size: 1rem; /* Adjusted font size */
+  }
+  /* Heading for each box */
+.box-heading {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+/* Style for boxes */
+.right-section .box {
+    width: 300px; /* Increased width */
+    height: 350px; /* Increased height */
+    border-radius: 10px;
+    background: #e6e6fa;
+    display: flex;
+    flex-direction: column; /* Stack heading and image */
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
+    color: #555;
+}
+
