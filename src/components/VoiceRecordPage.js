@@ -9,6 +9,7 @@ const VoiceRecordPage = () => {
   const [showLeftImage, setShowLeftImage] = useState(false);
   const [showRightImage, setShowRightImage] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
+  const [showSearching, setShowSearching] = useState(false);
 
   // Initialize Speech Recognition
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -37,16 +38,21 @@ const VoiceRecordPage = () => {
     if (isRecording) {
       recognition.stop();
       setIsRecording(false);
-      // Show dialog before displaying the images
+      // Show the "Generating..." popup before the left image is shown
       setShowDialog(true);
       setTimeout(() => {
         setShowDialog(false);
         fetchRandomRealSketch(); // Fetch a random image from the realsketches folder
-        setShowLeftImage(true);
+        setShowLeftImage(true); // Show the left image after "Generating..." popup
         setTimeout(() => {
-          setShowRightImage(true);
-        }, 3000); // 3 seconds delay for the right image
-      }, 3000); // 3 seconds delay for the dialog
+          // Show the "Searching Database..." popup after the left image is shown
+          setShowSearching(true);
+          setTimeout(() => {
+            setShowSearching(false); // Hide the "Searching Database..." popup after a delay
+            setShowRightImage(true); // Display the right image
+          }, 7000); // 3 seconds delay for the "Searching Database..." popup
+        }, 1000); // 1 second delay after showing the left image
+      }, 5000); // 2 seconds delay for "Generating..." popup
     } else {
       recognition.start();
       setIsRecording(true);
@@ -107,7 +113,14 @@ const VoiceRecordPage = () => {
       {/* Dialog Box */}
       {showDialog && (
         <div className="dialog-box">
-          <p>Loading...</p>
+          <p>Generating...</p>
+        </div>
+      )}
+      {/* Searching Database Popup */}
+      {showSearching && (
+        <div className="searching-modal">
+          <div className="spinner"></div>
+          <h2>Searching Database...</h2>
         </div>
       )}
       {/* Box Container for Side-by-Side Boxes */}
@@ -118,7 +131,7 @@ const VoiceRecordPage = () => {
           {showLeftImage && randomRealSketch ? (
             <img src={randomRealSketch} alt="Random Real Sketch" />
           ) : (
-            <p>Loading...</p>
+            <p>Generating...</p>
           )}
         </div>
         {/* Right Box */}
@@ -127,7 +140,7 @@ const VoiceRecordPage = () => {
           {showRightImage && correspondingFace ? (
             <img src={correspondingFace} alt="Corresponding Face" />
           ) : (
-            <p>Loading...</p>
+            <p>Generating...</p>
           )}
         </div>
       </div>
