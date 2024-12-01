@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Rnd } from "react-rnd";
 import Modal from "react-modal";
 import "./FaceBuilder.css";
@@ -26,7 +26,6 @@ const FaceBuilder = () => {
     "s41.jpg", "s42.jpg", "s43.jpg", "s44.jpg", "s45.jpg",
     "s46.jpg", "s47.jpg", "s48.jpg", "s49.jpg", "s50.jpg"
   ];
-
   const features = {
     head: [
       "chiseled.png",
@@ -40,7 +39,7 @@ const FaceBuilder = () => {
       "round.png",
       "square.png",
       "triangular.png",
-      "wide.png",
+      "wide.png"
     ],
     nose: [
       "aquiline.png",
@@ -63,7 +62,7 @@ const FaceBuilder = () => {
       "snub.png",
       "straight.png",
       "upturned.png",
-      "wide-bridged.png",
+      "wide-bridged.png"
     ],
     eyebrow: [
       "curvedeyebrow.png",
@@ -83,10 +82,10 @@ const FaceBuilder = () => {
       "thineyebrow.png",
       "wideeyebrow.png",
       "widelongeyebrow.png",
-      "widespaceeyebrow.png",
+      "widespaceeyebrow.png"
     ],
     eyes: [
-      "akmond.png",
+      "almond.png",
       "closet.png",
       "deep.png",
       "deepset.png",
@@ -99,7 +98,7 @@ const FaceBuilder = () => {
       "round.png",
       "thick.png",
       "upturn.png",
-      "wideset.png",
+      "wideset.png"
     ],
     hair: [
       "afro.png",
@@ -117,7 +116,7 @@ const FaceBuilder = () => {
       "straight_long.png",
       "straight_short.png",
       "wavy_long.png",
-      "wavy_short.png",
+      "wavy_short.png"
     ],
     lips: [
       "asymmetrical.png",
@@ -137,7 +136,7 @@ const FaceBuilder = () => {
       "soft-edged.png",
       "thin.png",
       "upturned.png",
-      "wide.png",
+      "wide.png"
     ],
     moustache: [
       "boxcar.png",
@@ -154,9 +153,9 @@ const FaceBuilder = () => {
       "petite_handlebar.png",
       "pyramid.png",
       "shadow.png",
-      "walrus.png",
+      "walrus.png"
     ],
-    "ear and neck": [
+    earandneck: [
       "leftearnormal.png",
       "leftearshort.png",
       "leftearthick.png",
@@ -170,10 +169,63 @@ const FaceBuilder = () => {
       "thoratmorewide.png",
       "thoratsharp.png",
       "thoratshort.png",
-      "widethroat.png",
-    ],
+      "widethroat.png"
+    ]
   };
-
+  const faceDescriptions = [
+    { id: "s1", head: "oval", hair: "buzz_cut", nose: "flat", lips: "full", eyes: "almond", earandneck: "leftearnormal" },
+    { id: "s2", head: "round", hair: "curly_short", nose: "broad", lips: "thin", eyes: "round", earandneck: "widethroat" },
+    { id: "s3", head: "square", hair: "spiky", nose: "straight", lips: "defined", eyes: "deepset", earandneck: "rightearthick" },
+    { id: "s4", head: "heart", hair: "layered", nose: "aquiline", lips: "full", eyes: "doublelid", earandneck: "leftearshort" },
+    { id: "s5", head: "diamond", hair: "straight_long", nose: "hooked", lips: "asymmetrical", eyes: "wideset", earandneck: "thoratlong" },
+    { id: "s6", head: "oblong", hair: "wavy_short", nose: "upturned", lips: "bow-shaped", eyes: "hooded", earandneck: "thorat" },
+    { id: "s7", head: "triangular", hair: "braided_short", nose: "snub", lips: "rounded", eyes: "monlid", earandneck: "leftearthick" },
+    { id: "s8", head: "wide", hair: "afro", nose: "Roman", lips: "sharp-edged", eyes: "upturn", earandneck: "rightearthin" },
+    { id: "s9", head: "narrow", hair: "bun_high", nose: "button", lips: "pouty", eyes: "prominent", earandneck: "widethroat" },
+    { id: "s10", head: "rectangle", hair: "curly_long", nose: "crooked", lips: "matte", eyes: "closet", earandneck: "thoratsharp" },
+    { id: "s11", head: "chiseled", hair: "wavy_long", nose: "aquiline", lips: "glossy", eyes: "deep", earandneck: "leftearshort" },
+    { id: "s12", head: "heart", hair: "braided_long", nose: "Greek", lips: "soft-edged", eyes: "monlid", earandneck: "rightearthick" },
+    { id: "s13", head: "pear", hair: "bun_low", nose: "broad", lips: "pouty", eyes: "hooded", earandneck: "thorat" },
+    { id: "s14", head: "oval", hair: "afro", nose: "Roman", lips: "sharp-edged", eyes: "almond", earandneck: "rightearthin" },
+    { id: "s15", head: "diamond", hair: "straight_short", nose: "upturned", lips: "rounded", eyes: "wideset", earandneck: "widethroat" },
+    { id: "s16", head: "round", hair: "layered", nose: "snub", lips: "bow-shaped", eyes: "deepset", earandneck: "leftearnormal" },
+    { id: "s17", head: "narrow", hair: "spiky", nose: "straight", lips: "matte", eyes: "doublelid", earandneck: "thoratlong" },
+    { id: "s18", head: "wide", hair: "buzz_cut", nose: "button", lips: "thin", eyes: "closet", earandneck: "rightearthick" },
+    { id: "s19", head: "rectangle", hair: "braided_short", nose: "flat", lips: "full", eyes: "round", earandneck: "leftearthin" },
+    { id: "s20", head: "square", hair: "curly_short", nose: "hooked", lips: "defined", eyes: "upturn", earandneck: "thoratsharp" },
+    { id: "s21", head: "triangular", hair: "wavy_long", nose: "crooked", lips: "asymmetrical", eyes: "deep", earandneck: "widethroat" },
+    { id: "s22", head: "oval", hair: "ponytail_high", nose: "low-bridged", lips: "heart-shaped", eyes: "monlid", earandneck: "rightearshort" },
+    { id: "s23", head: "oblong", hair: "bun_high", nose: "snub", lips: "glossy", eyes: "almond", earandneck: "leftearthick" },
+    { id: "s24", head: "diamond", hair: "curly_long", nose: "upturned", lips: "pouty", eyes: "hooded", earandneck: "rightearthick" },
+    { id: "s25", head: "heart", hair: "layered", nose: "high-bridged", lips: "sharp-edged", eyes: "prominent", earandneck: "thorat" },
+    { id: "s26", head: "wide", hair: "straight_short", nose: "aquiline", lips: "matte", eyes: "deepset", earandneck: "rightearthin" },
+    { id: "s27", head: "narrow", hair: "afro", nose: "Greek", lips: "rounded", eyes: "round", earandneck: "thoratsharp" },
+    { id: "s28", head: "round", hair: "wavy_short", nose: "flat", lips: "full", eyes: "upturn", earandneck: "widethroat" },
+    { id: "s29", head: "pear", hair: "spiky", nose: "snub", lips: "bow-shaped", eyes: "doublelid", earandneck: "leftearnormal" },
+    { id: "s30", head: "rectangle", hair: "buzz_cut", nose: "button", lips: "thin", eyes: "closet", earandneck: "rightearthick" },
+    { id: "s31", head: "chiseled", hair: "braided_long", nose: "hooked", lips: "sharp-edged", eyes: "deep", earandneck: "leftearshort" },
+    { id: "s32", head: "square", hair: "ponytail_low", nose: "upturned", lips: "heart-shaped", eyes: "prominent", earandneck: "thoratlong" },
+    { id: "s33", head: "diamond", hair: "curly_short", nose: "broad", lips: "soft-edged", eyes: "hooded", earandneck: "leftearthin" },
+    { id: "s34", head: "wide", hair: "wavy_short", nose: "flat", lips: "pouty", eyes: "round", earandneck: "rightearshort" },
+    { id: "s35", head: "oval", hair: "bun_low", nose: "snub", lips: "bow-shaped", eyes: "doublelid", earandneck: "thoratsharp" },
+    { id: "s36", head: "round", hair: "afro", nose: "Roman", lips: "full", eyes: "almond", earandneck: "widethroat" },
+    { id: "s37", head: "heart", hair: "straight_long", nose: "upturned", lips: "matte", eyes: "deep", earandneck: "leftearthick" },
+    { id: "s38", head: "oblong", hair: "braided_short", nose: "high-bridged", lips: "sharp-edged", eyes: "wideset", earandneck: "thorat" },
+    { id: "s39", head: "rectangle", hair: "spiky", nose: "flat", lips: "heart-shaped", eyes: "closet", earandneck: "rightearthin" },
+    { id: "s40", head: "square", hair: "curly_long", nose: "crooked", lips: "bow-shaped", eyes: "upturn", earandneck: "leftearnormal" },
+    { id: "s41", head: "narrow", hair: "bun_high", nose: "snub", lips: "asymmetrical", eyes: "doublelid", earandneck: "rightearthick" },
+    { id: "s42", head: "triangular", hair: "layered", nose: "button", lips: "sharp-edged", eyes: "deep", earandneck: "leftearthin" },
+    { id: "s43", head: "pear", hair: "wavy_long", nose: "broad", lips: "pouty", eyes: "hooded", earandneck: "rightearshort" },
+    { id: "s44", head: "chiseled", hair: "straight_short", nose: "hooked", lips: "rounded", eyes: "wideset", earandneck: "thoratlong" },
+    { id: "s45", head: "diamond", hair: "braided_long", nose: "aquiline", lips: "matte", eyes: "round", earandneck: "leftearnormal" },
+    { id: "s46", head: "oval", hair: "buzz_cut", nose: "flat", lips: "full", eyes: "almond", earandneck: "leftearnormal" },
+    { id: "s47", head: "round", hair: "curly_short", nose: "broad", lips: "thin", eyes: "round", earandneck: "widethroat" },
+    { id: "s48", head: "square", hair: "spiky", nose: "straight", lips: "defined", eyes: "deepset", earandneck: "rightearthick" },
+    { id: "s49", head: "heart", hair: "layered", nose: "aquiline", lips: "full", eyes: "doublelid", earandneck: "leftearshort" },
+    { id: "s50", head: "diamond", hair: "straight_long", nose: "hooked", lips: "asymmetrical", eyes: "wideset", earandneck: "thoratlong" }
+  ];
+  
+  
   const addToSketchArea = (category, feature) => {
     const newItem = {
       id: Date.now(),
@@ -182,7 +234,7 @@ const FaceBuilder = () => {
       x: 50,
       y: 50,
       width: 100,
-      height: 100,
+      height: 100
     };
     setSketchItems([...sketchItems, newItem]);
   };
@@ -191,16 +243,57 @@ const FaceBuilder = () => {
     setSketchItems(sketchItems.filter(item => item.id !== id));
   };
 
-  const handleCaptureImage = () => {
-    setIsSearching(true);
-    setTimeout(() => {
-      setIsSearching(false);
-      const nextImage = faceImages[currentImageIndex];
-      setMatchedImage(nextImage);
-      setIsModalOpen(true);
-      setCurrentImageIndex((currentImageIndex + 1) % faceImages.length);
-    }, 7000); // Revert delay to 2 seconds
-  };
+  const [usedElements, setUsedElements] = useState({
+    head: "",
+    eyes: "",
+    nose: "",
+    lips: "",
+    eyebrow: "",
+    hair: ""
+});
+
+// Example function to update usedElements based on user input
+const updateUsedElements = (newElements) => {
+    setUsedElements(prev => ({ ...prev, ...newElements }));
+};
+
+// In the handleCaptureImage function
+const handleCaptureImage = () => {
+  setIsSearching(true);
+
+  setTimeout(() => {
+    setIsSearching(false);
+
+    // Create a mapping of used elements
+    const usedElements = sketchItems.reduce((acc, item) => {
+      acc[item.category] = item.src.split('/').pop().split('.')[0]; // Extract the feature name
+      return acc;
+    }, {});
+
+    // Matching logic
+    let bestMatch = null;
+    let highestScore = 0;
+
+    faceDescriptions.forEach((face) => {
+      let score = 0;
+
+      Object.keys(usedElements).forEach((category) => {
+        if (face[category] === usedElements[category]) {
+          score++; // Increment score for each matching feature
+        }
+      });
+
+      if (score > highestScore) {
+        highestScore = score;
+        bestMatch = face; // Set the best matching face object
+      }
+    });
+
+    // Update the matched image
+    setMatchedImage(bestMatch ? `/faces/${bestMatch.id}.jpg` : null);
+    setIsModalOpen(true);
+  }, 2000); // Delay of 2 seconds
+};
 
   return (
     <div className="face-builder-container">
@@ -229,7 +322,7 @@ const FaceBuilder = () => {
                 x: item.x,
                 y: item.y,
                 width: item.width,
-                height: item.height,
+                height: item.height
               }}
               bounds="parent"
               enableResizing={{
@@ -240,7 +333,7 @@ const FaceBuilder = () => {
                 topRight: true,
                 bottomRight: true,
                 bottomLeft: true,
-                topLeft: true,
+                topLeft: true
               }}
               onClick={() => setActiveItemId(item.id)}
             >
@@ -262,7 +355,7 @@ const FaceBuilder = () => {
                       borderRadius: '50%',
                       cursor: 'pointer',
                       width: '20px',
-                      height: '20px',
+                      height: '20px'
                     }}
                     onClick={() => removeFromSketchArea(item.id)}
                   >
@@ -299,6 +392,7 @@ const FaceBuilder = () => {
                   src={`/features/${selectedCategory}/${feature}`}
                   alt={`${selectedCategory} ${index}`}
                 />
+                <p>{feature.split('.')[0]}</p> {/* Display image name */}
               </div>
             ))}
           </div>
@@ -306,19 +400,17 @@ const FaceBuilder = () => {
       </div>
 
       {/* Modal for displaying searching database */}
-      {/* Modal for displaying searching database */}
-<Modal
-    isOpen={isSearching}
-    onRequestClose={() => setIsSearching(false)}
-    className="searching-modal"
-    overlayClassName="modal-overlay"
->
-    <div className="modal-content">
-        <div className="spinner"></div>
-        <h2>Searching Database...</h2>
-    </div>
-</Modal>
-
+      <Modal
+        isOpen={isSearching}
+        onRequestClose={() => setIsSearching(false)}
+        className="searching-modal"
+        overlayClassName="modal-overlay"
+      >
+        <div className="modal-content">
+          <div className="spinner"></div>
+          <h2>Searching Database...</h2>
+        </div>
+      </Modal>
 
       {/* Modal for displaying captured image */}
       <Modal
@@ -331,7 +423,7 @@ const FaceBuilder = () => {
           <h2>Captured Image</h2>
           <div className="image-box">
             {matchedImage ? (
-              <img src={`/faces/${matchedImage}`} alt="Matched Face" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+              <img src={matchedImage} alt="Matched Face" style={{ maxWidth: '100%', maxHeight: '100%' }} />
             ) : (
               <p>No matching image found.</p>
             )}
