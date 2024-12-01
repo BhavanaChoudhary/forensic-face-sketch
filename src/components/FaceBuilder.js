@@ -1,12 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Rnd } from "react-rnd";
+import Modal from "react-modal";
 import "./FaceBuilder.css";
+
+Modal.setAppElement('#root');
 
 const FaceBuilder = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [sketchItems, setSketchItems] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [matchedImage, setMatchedImage] = useState(null);
+  const [activeItemId, setActiveItemId] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isSearching, setIsSearching] = useState(false);
 
-  // Define the features and their respective images
+  const faceImages = [
+    "s1.jpg", "s2.jpg", "s3.jpg", "s4.jpg", "s5.jpg",
+    "s6.jpg", "s7.jpg", "s8.jpg", "s9.jpg", "s10.jpg",
+    "s11.jpg", "s12.jpg", "s13.jpg", "s14.jpg", "s15.jpg",
+    "s16.jpg", "s17.jpg", "s18.jpg", "s19.jpg", "s20.jpg",
+    "s21.jpg", "s22.jpg", "s23.jpg", "s24.jpg", "s25.jpg",
+    "s26.jpg", "s27.jpg", "s28.jpg", "s29.jpg", "s30.jpg",
+    "s31.jpg", "s32.jpg", "s33.jpg", "s34.jpg", "s35.jpg",
+    "s36.jpg", "s37.jpg", "s38.jpg", "s39.jpg", "s40.jpg",
+    "s41.jpg", "s42.jpg", "s43.jpg", "s44.jpg", "s45.jpg",
+    "s46.jpg", "s47.jpg", "s48.jpg", "s49.jpg", "s50.jpg"
+  ];
+
   const features = {
     head: [
       "chiseled.png",
@@ -167,6 +187,21 @@ const FaceBuilder = () => {
     setSketchItems([...sketchItems, newItem]);
   };
 
+  const removeFromSketchArea = (id) => {
+    setSketchItems(sketchItems.filter(item => item.id !== id));
+  };
+
+  const handleCaptureImage = () => {
+    setIsSearching(true);
+    setTimeout(() => {
+      setIsSearching(false);
+      const nextImage = faceImages[currentImageIndex];
+      setMatchedImage(nextImage);
+      setIsModalOpen(true);
+      setCurrentImageIndex((currentImageIndex + 1) % faceImages.length);
+    }, 2000); // Revert delay to 2 seconds
+  };
+
   return (
     <div className="face-builder-container">
       {/* Left Sidebar for selecting categories */}
@@ -207,16 +242,38 @@ const FaceBuilder = () => {
                 bottomLeft: true,
                 topLeft: true,
               }}
+              onClick={() => setActiveItemId(item.id)}
             >
-              <img
-                src={item.src}
-                alt={item.category}
-                style={{ width: "100%", height: "100%", objectFit: "contain" }}
-              />
+              <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                <img
+                  src={item.src}
+                  alt={item.category}
+                  style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                />
+                {activeItemId === item.id && (
+                  <button
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      backgroundColor: 'red',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '50%',
+                      cursor: 'pointer',
+                      width: '20px',
+                      height: '20px',
+                    }}
+                    onClick={() => removeFromSketchArea(item.id)}
+                  >
+                    &times;
+                  </button>
+                )}
+              </div>
             </Rnd>
           ))}
         </div>
-        <button className="capture-button">Capture Image</button>
+        <button className="capture-button" onClick={handleCaptureImage}>Capture Image</button>
         <div className="description-box">
           <h4>Used Elements</h4>
           <ul>
@@ -247,6 +304,38 @@ const FaceBuilder = () => {
           </div>
         )}
       </div>
+
+      {/* Modal for displaying searching database */}
+      <Modal
+        isOpen={isSearching}
+        onRequestClose={() => setIsSearching(false)}
+        className="searching-modal"
+        overlayClassName="modal-overlay"
+      >
+        <div className="modal-content">
+          <h2>Searching Database...</h2>
+        </div>
+      </Modal>
+
+      {/* Modal for displaying captured image */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        className="capture-modal"
+        overlayClassName="modal-overlay"
+      >
+        <div className="modal-content">
+          <h2>Captured Image</h2>
+          <div className="image-box">
+            {matchedImage ? (
+              <img src={`/faces/${matchedImage}`} alt="Matched Face" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+            ) : (
+              <p>No matching image found.</p>
+            )}
+          </div>
+          <button className="close-button" onClick={() => setIsModalOpen(false)}>Close</button>
+        </div>
+      </Modal>
     </div>
   );
 };
