@@ -199,7 +199,7 @@ const FaceBuilder = () => {
       setMatchedImage(nextImage);
       setIsModalOpen(true);
       setCurrentImageIndex((currentImageIndex + 1) % faceImages.length);
-    }, 2000); // Revert delay to 2 seconds
+    }, 7000); // Revert delay to 2 seconds
   };
 
   return (
@@ -306,16 +306,19 @@ const FaceBuilder = () => {
       </div>
 
       {/* Modal for displaying searching database */}
-      <Modal
-        isOpen={isSearching}
-        onRequestClose={() => setIsSearching(false)}
-        className="searching-modal"
-        overlayClassName="modal-overlay"
-      >
-        <div className="modal-content">
-          <h2>Searching Database...</h2>
-        </div>
-      </Modal>
+      {/* Modal for displaying searching database */}
+<Modal
+    isOpen={isSearching}
+    onRequestClose={() => setIsSearching(false)}
+    className="searching-modal"
+    overlayClassName="modal-overlay"
+>
+    <div className="modal-content">
+        <div className="spinner"></div>
+        <h2>Searching Database...</h2>
+    </div>
+</Modal>
+
 
       {/* Modal for displaying captured image */}
       <Modal
