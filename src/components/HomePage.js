@@ -1,4 +1,5 @@
 import React from 'react'; 
+import Rnd from 'react-rnd';
 import { useNavigate, Link } from 'react-router-dom'; // Import Link for navigation
 import './HomePage.css';
 
