@@ -11,21 +11,8 @@ const FaceBuilder = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [matchedImage, setMatchedImage] = useState(null);
   const [activeItemId, setActiveItemId] = useState(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
 
-  const faceImages = [
-    "s1.jpg", "s2.jpg", "s3.jpg", "s4.jpg", "s5.jpg",
-    "s6.jpg", "s7.jpg", "s8.jpg", "s9.jpg", "s10.jpg",
-    "s11.jpg", "s12.jpg", "s13.jpg", "s14.jpg", "s15.jpg",
-    "s16.jpg", "s17.jpg", "s18.jpg", "s19.jpg", "s20.jpg",
-    "s21.jpg", "s22.jpg", "s23.jpg", "s24.jpg", "s25.jpg",
-    "s26.jpg", "s27.jpg", "s28.jpg", "s29.jpg", "s30.jpg",
-    "s31.jpg", "s32.jpg", "s33.jpg", "s34.jpg", "s35.jpg",
-    "s36.jpg", "s37.jpg", "s38.jpg", "s39.jpg", "s40.jpg",
-    "s41.jpg", "s42.jpg", "s43.jpg", "s44.jpg", "s45.jpg",
-    "s46.jpg", "s47.jpg", "s48.jpg", "s49.jpg", "s50.jpg"
-  ];
   const features = {
     head: [
       "diamond.png",
@@ -77,11 +64,11 @@ const FaceBuilder = () => {
       "sharpeeyebrow.png",
       "thickdoubleeybrow.png",
       "thickeyebrow.png",
-      "thickwideeyebrow.png",
+      "thickwideeybrow.png",
       "thineyebrow.png",
       "wideeyebrow.png",
       "widelongeyebrow.png",
-      "widespaceeyebrow.png"
+      "widespaceeybrow.png"
     ],
     eyes: [
       "almond.png",
@@ -171,6 +158,7 @@ const FaceBuilder = () => {
       "widethroat.png"
     ]
   };
+  
   const faceDescriptions = [
     { id: "s1", head: "oval", hair: "spiky", nose: "flat", lips: "full", eyes: "almond", earandneck: "leftearnormal" },
     { id: "s2", head: "round", hair: "spiky", nose: "broad", lips: "thin", eyes: "round", earandneck: "widethroat" },
@@ -223,7 +211,6 @@ const FaceBuilder = () => {
     { id: "s49", head: "heart", hair: "layered", nose: "aquiline", lips: "full", eyes: "doublelid", earandneck: "leftearshort" },
     { id: "s50", head: "diamond", hair: "straight_long", nose: "hooked", lips: "asymmetrical", eyes: "wideset", earandneck: "thoratlong" }
   ];
-  
   
   const addToSketchArea = (category, feature) => {
     const newItem = {
