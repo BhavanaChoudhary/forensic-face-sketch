@@ -158,7 +158,7 @@ const FaceBuilder = () => {
       "widethroat.png"
     ]
   };
-  
+
   const faceDescriptions = [
     { id: "s1", head: "oval", hair: "spiky", nose: "flat", lips: "full", eyes: "almond", earandneck: "leftearnormal" },
     { id: "s2", head: "round", hair: "spiky", nose: "broad", lips: "thin", eyes: "round", earandneck: "widethroat" },
@@ -198,7 +198,7 @@ const FaceBuilder = () => {
     { id: "s36", head: "round", hair: "bun_high", nose: "Roman", lips: "full", eyes: "almond", earandneck: "widethroat" },
     { id: "s37", head: "heart", hair: "bun_high", nose: "upturned", lips: "matte", eyes: "deep", earandneck: "leftearthick" },
     { id: "s38", head: "oblong", hair: "braided_short", nose: "high-bridged", lips: "sharp-edged", eyes: "wideset", earandneck: "thorat" },
-    { id: "s39", head: "rectangle", hair: "spiky", nose: "flat", lips: "heart-shaped", eyes: "closet", earandneck: "rightearthin" },
+    { id: "s39", head: "rectangle", hair: "spiky", nose: "flat", lips: "heart-shaped", eyes: "closet", earandneck: "rightearshort" },
     { id: "s40", head: "square", hair: "ponytail_high", nose: "crooked", lips: "bow-shaped", eyes: "upturn", earandneck: "leftearnormal" },
     { id: "s41", head: "narrow", hair: "straight_long", nose: "snub", lips: "asymmetrical", eyes: "doublelid", earandneck: "rightearthick" },
     { id: "s42", head: "triangular", hair: "layered", nose: "button", lips: "sharp-edged", eyes: "deep", earandneck: "leftearthin" },
@@ -207,7 +207,7 @@ const FaceBuilder = () => {
     { id: "s45", head: "diamond", hair: "braided_long", nose: "aquiline", lips: "matte", eyes: "round", earandneck: "leftearnormal" },
     { id: "s46", head: "oval", hair: "buzz_cut", nose: "flat", lips: "full", eyes: "almond", earandneck: "leftearnormal" },
     { id: "s47", head: "round", hair: "spiky", nose: "broad", lips: "thin", eyes: "round", earandneck: "widethroat" },
-    { id: "s48", head: "square", hair: "spiky", nose: "straight", lips: "defined", eyes: "deepset", earandneck: "rightearthick" },
+    { id: "s48", head: "square", hair: "spiky", nose: "straight", lips: "defined", eyes: "deepset", earandneck: "rightearshort" },
     { id: "s49", head: "heart", hair: "layered", nose: "aquiline", lips: "full", eyes: "doublelid", earandneck: "leftearshort" },
     { id: "s50", head: "diamond", hair: "straight_long", nose: "hooked", lips: "asymmetrical", eyes: "wideset", earandneck: "thoratlong" }
   ];
@@ -229,58 +229,67 @@ const FaceBuilder = () => {
     setSketchItems(sketchItems.filter(item => item.id !== id));
   };
 
-  const [usedElements, setUsedElements] = useState({
-    head: "",
-    eyes: "",
-    nose: "",
-    lips: "",
-    eyebrow: "",
-    hair: ""
-});
+  const handleCaptureImage = () => {
+    setIsSearching(true);
 
-// Example function to update usedElements based on user input
-const updateUsedElements = (newElements) => {
-    setUsedElements(prev => ({ ...prev, ...newElements }));
-};
+    setTimeout(() => {
+      setIsSearching(false);
 
-// In the handleCaptureImage function
-const handleCaptureImage = () => {
-  setIsSearching(true);
+      // Create a mapping of used elements
+      const usedElements = sketchItems.reduce((acc, item) => {
+        acc[item.category] = item.src.split('/').pop().split('.')[0]; // Extract the feature name
+        return acc;
+      }, {});
 
-  setTimeout(() => {
-    setIsSearching(false);
+      // Prepare the data to be sent to the server
+      const sketchData = {
+        items: sketchItems,
+        usedElements: usedElements,
+        matchedImage: matchedImage // Include the matched image
+      };
 
-    // Create a mapping of used elements
-    const usedElements = sketchItems.reduce((acc, item) => {
-      acc[item.category] = item.src.split('/').pop().split('.')[0]; // Extract the feature name
-      return acc;
-    }, {});
+      // Send the data to the server
+      fetch('/api/save-sketch', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(sketchData),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
 
-    // Matching logic
-    let bestMatch = null;
-    let highestScore = 0;
+      // Matching logic
+      let bestMatch = null;
+      let highestScore = 0;
 
-    faceDescriptions.forEach((face) => {
-      let score = 0;
+      faceDescriptions.forEach((face) => {
+        let score = 0;
 
-      Object.keys(usedElements).forEach((category) => {
-        if (face[category] === usedElements[category]) {
-          score++; // Increment score for each matching feature
+        Object.keys(usedElements).forEach((category) => {
+          if (face[category] === usedElements[category]) {
+            score++; // Increment score for each matching feature
+          }
+        });
+
+        if (score > highestScore) {
+          highestScore = score;
+          bestMatch = face; // Set the best matching face object
         }
       });
 
-      if (score > highestScore) {
-        highestScore = score;
-        bestMatch = face; // Set the best matching face object
-      }
-    });
+      // Update the matched image
+      setMatchedImage(bestMatch ? `/faces/${bestMatch.id}.jpg` : null);
+      setIsModalOpen(true);
+    }, 2000); // Delay of 2 seconds
+  };
 
-    // Update the matched image
-    setMatchedImage(bestMatch ? `/faces/${bestMatch.id}.jpg` : null);
-    setIsModalOpen(true);
-  }, 2000); // Delay of 2 seconds
-};
-
+  
   return (
     <div className="face-builder-container">
       {/* Left Sidebar for selecting categories */}
@@ -353,6 +362,7 @@ const handleCaptureImage = () => {
           ))}
         </div>
         <button className="capture-button" onClick={handleCaptureImage}>Capture Image</button>
+        
         <div className="description-box">
           <h4>Used Elements</h4>
           <ul>
