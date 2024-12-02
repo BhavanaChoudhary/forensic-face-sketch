@@ -21,7 +21,7 @@ const HomePage = () => {
       {/* Upper Section */}
       <div className="upper-section">
         <div className="content">
-          <h1>Forensic Sketch System</h1>
+          <h1>FACE AURA - a forensic face sketching system</h1>
           <p>
             In forensic science, hand-drawn face sketches are often time-consuming and limited in their
             effectiveness for matching with databases. This system uses modern technology to create composite
@@ -29,9 +29,9 @@ const HomePage = () => {
             suspects.
           </p>
           <p>
-            Features include security measures like machine locking, two-step verification, and centralized server
-            usage. The platform leverages deep learning algorithms for face recognition, offering over 90% accuracy
-            in tests, and supports both hand-drawn and composite sketches for database matching.
+            Features include security measures like centralized server
+            usage. The platform leverages various algorithms for face recognition, offering over 90% accuracy
+            in tests, and supports  manually-drawn , giving voice commands and video records for database matching.
           </p>
         </div>
 
