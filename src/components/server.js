@@ -132,7 +132,7 @@ app.get('/api/sketches', async (req, res) => {
   }
 });
 
-// Get a random sketch
+
 app.get('/api/sketches/random', async (req, res) => {
   try {
     const count = await Sketch.countDocuments();  // Count how many sketches are in the database
