@@ -132,6 +132,9 @@ const VideoInputPage = () => {
             {faceImageSrc && <img src={faceImageSrc} alt="Face" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
         </div>
     </div>
+    <div className="feature-message">
+        ⚙️ Feature Under Development - Coming Soon!
+    </div>
 </div>
 
 
